@@ -3,3 +3,16 @@ sudo apt install python3-tk
 
 pip install gitpython
 
+### Windows
+para instalar o python no windows acessar o site https://www.python.org/downloads/
+
+verificar a versão -> py --version
+
+para gerar um instalador instalar a seguinte biblioteca 
+    pip install pyinstaller
+
+e depois usar o seguinte comando para gerar o instalador(sera gerado na pasta dist dentro da pasta do projeto)
+    pyinstaller --onefile .\automacao.py
+
+
+
