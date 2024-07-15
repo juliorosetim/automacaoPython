@@ -22,6 +22,8 @@ def salvar_configuracao():
         "pasta": combo_pastas.get(),
         "branchPessoal": branchPessoal.get(),
         "branchComum": branchComum.get(),
+        "branchLibDes": brancLibDes.get(),
+        "branchLibItg": brancLibItg.get(),
     }
     configuracoes[nome_config] = configuracao
     with open("configuracoes.json", "w") as arquivo:
@@ -45,11 +47,15 @@ def carregar_configuracao(event=None):
         branchPessoal.insert(0, configuracao["branchPessoal"])     
         branchComum.delete(0, tk.END)
         branchComum.insert(0, configuracao["branchComum"]) 
+        branchLibDes.delete(0, tk.END)
+        branchLibDes.insert(0, configuracao["branchLibDes"])
+        branchLibItg.delete(0, tk.END)
+        branchLibItg.insert(0, configuracao["branchLibItg"])        
 
 # Criar a janela principal
 root = tk.Tk()
 root.title("Gerenciador de Configurações")
-root.geometry("800x400")
+root.geometry("700x450")
 
 # Carregar configurações existentes (ou criar um dicionário vazio)
 try:
@@ -57,6 +63,9 @@ try:
         configuracoes = json.load(arquivo)
 except FileNotFoundError:
     configuracoes = {}
+
+label_em_branco = tk.Label(root, text="")
+label_em_branco.pack()
 
 # Combobox para selecionar configuração
 #combobox_config = ttk.Combobox(root, values=list(configuracoes.keys()))
@@ -100,6 +109,16 @@ label_campo2.pack()
 branchComum = tk.Entry(root, width=80)
 branchComum.pack()
 
+label_campo3 = tk.Label(root, text="Branch comum des(liberacao_des):")
+label_campo3.pack()
+branchLibDes = tk.Entry(root, width=80)
+branchLibDes.pack()
+
+label_campo4 = tk.Label(root, text="Branch comum ITG(liberacao_itg):")
+label_campo4.pack()
+branchLibItg = tk.Entry(root, width=80)
+branchLibItg.pack()
+
 # Botão para salvar configuração
 botao_salvar = tk.Button(root, text="Salvar Configuração", command=salvar_configuracao)
 botao_salvar.pack()
@@ -112,8 +131,8 @@ def merge():
     repo_path = entry_diretorio_local.get() + '/' + combo_pastas.get()
     branch_pessoal = branchPessoal.get()
     branch_comum = branchComum.get()
-    branch_des = 'liberacao-des'
-    branch_itg = 'liberacao-itg'
+    branch_des = branchLibDes.get()
+    branch_itg = branchLibItg.get()
 
     try:
         repo = git.Repo(repo_path)
@@ -139,32 +158,39 @@ def merge():
         repo.remotes.origin.push(branch_comum)
 
         # Merge e push para a branch "branchDes"
-        print("  ")
-        print("  ")
-        print("Checkout para a branch -> " + branch_des)
-        repo.git.checkout(branch_des)
-        print("  ")
-        print("  ")
-        print("Merge da branch -> " + branch_comum + " para a branch -> " + branch_des)
-        repo.git.merge(branch_comum)
-        print("  ")
-        print("  ")
-        print("Push para a branch -> " + branch_des)
-        repo.remotes.origin.push(branch_des)
+        if not branch_des == "":
+            print("  ")
+            print("  ")
+            print("Checkout para a branch -> " + branch_des)
+            repo.git.checkout(branch_des)
+            print("  ")
+            print("  ")
+            print("Merge da branch -> " + branch_comum + " para a branch -> " + branch_des)
+            repo.git.merge(branch_comum)
+            print("  ")
+            print("  ")
+            print("Push para a branch -> " + branch_des)
+            repo.remotes.origin.push(branch_des)
+        else:
+            print("Branch comun DES não configurada")
 
         # Merge e push para a branch "branchItg"
-        print("  ")
-        print("  ")
-        print("Checkout para a branch -> " + branch_itg)
-        repo.git.checkout(branch_itg)
-        print("  ")
-        print("  ")
-        print("Merge da branch -> " + branch_comum + " para a branch -> " + branch_des)
-        repo.git.merge(branch_comum)
-        print("  ")
-        print("  ")
-        print("Push para a branch -> " + branch_itg)
-        repo.remotes.origin.push(branch_itg)
+        if not branch_des == "":
+            print("  ")
+            print("  ")
+            print("Checkout para a branch -> " + branch_itg)
+            repo.git.checkout(branch_itg)
+            print("  ")
+            print("  ")
+            print("Merge da branch -> " + branch_comum + " para a branch -> " + branch_des)
+            repo.git.merge(branch_comum)
+            print("  ")
+            print("  ")
+            print("Push para a branch -> " + branch_itg)
+            repo.remotes.origin.push(branch_itg)
+        else:
+            print("Branch comun ITG não configurada")
+
 
         print("  ")
         print("  ")
