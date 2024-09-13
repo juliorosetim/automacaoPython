@@ -31,10 +31,10 @@ def salvar_configuracao():
         "nomeConfiguracao": entry_nome_config.get(),
         "diretorio": entry_diretorio_local.get(),
         "pasta": combo_pastas.get(),
-        "branchPessoal": branchPessoal.get(),
-        "branchComum": branchComum.get(),
-        "branchLibDes": branchLibDes.get(),
-        "branchLibItg": branchLibItg.get(),
+        "branchPessoal": entry_branchPessoal.get(),
+        "branchComum": entry_branchComum.get(),
+        "branchLibDes": entry_branchLibDes.get(),
+        "branchLibItg": entry_branchLibItg.get(),
     }
     configuracoes[nome_config] = configuracao
     with open("configuracoes.json", "w") as arquivo:
@@ -54,24 +54,24 @@ def carregar_configuracao(event=None):
         entry_diretorio_local.insert(0, configuracao["diretorio"])      
         combo_pastas.delete(0, tk.END)
         combo_pastas.insert(0, configuracao["pasta"])               
-        branchPessoal.delete(0, tk.END)
-        branchPessoal.insert(0, configuracao["branchPessoal"])     
-        branchComum.delete(0, tk.END)
-        branchComum.insert(0, configuracao["branchComum"]) 
-        branchLibDes.delete(0, tk.END)
-        branchLibDes.insert(0, configuracao["branchLibDes"])
-        branchLibItg.delete(0, tk.END)
-        branchLibItg.insert(0, configuracao["branchLibItg"])        
+        entry_branchPessoal.delete(0, tk.END)
+        entry_branchPessoal.insert(0, configuracao["branchPessoal"])     
+        entry_branchComum.delete(0, tk.END)
+        entry_branchComum.insert(0, configuracao["branchComum"]) 
+        entry_branchLibDes.delete(0, tk.END)
+        entry_branchLibDes.insert(0, configuracao["branchLibDes"])
+        entry_branchLibItg.delete(0, tk.END)
+        entry_branchLibItg.insert(0, configuracao["branchLibItg"])        
 
 def nova_configuracao(event=None):
     entry_nome_config.delete(0, tk.END)
     combobox_config.delete(0, tk.END)
     entry_diretorio_local.delete(0, tk.END)
     combo_pastas.delete(0, tk.END)
-    branchPessoal.delete(0, tk.END)
-    branchComum.delete(0, tk.END)
-    branchLibDes.delete(0, tk.END)
-    branchLibItg.delete(0, tk.END)
+    entry_branchPessoal.delete(0, tk.END)
+    entry_branchComum.delete(0, tk.END)
+    entry_branchLibDes.delete(0, tk.END)
+    entry_branchLibItg.delete(0, tk.END)
 
 # Criar a janela principal
 root = tk.Tk()
@@ -85,110 +85,110 @@ try:
 except FileNotFoundError:
     configuracoes = {}
 
-fLinha1 = tk.Frame(root)
-fLinha1.pack(padx=5, pady=5, anchor='w')
+frameLinha1 = tk.Frame(root)
+frameLinha1.pack(padx=5, pady=5, anchor='w')
 
-label_em_branco = tk.Label(fLinha1, text="Configurações", width=30)
-label_em_branco.pack(side="left")
+label_configuracoes = tk.Label(frameLinha1, text="Configurações", width=30)
+label_configuracoes.pack(side="left")
 
 # Combobox para selecionar configuração
 # combobox_config = ttk.Combobox(root)
-combobox_config = ttk.Combobox(fLinha1, width=50)
+combobox_config = ttk.Combobox(frameLinha1, width=50)
 combobox_config.pack(side="left")
 combobox_config.bind("<<ComboboxSelected>>", carregar_configuracao)  # Chamar a função ao selecionar uma configuração
 combobox_config["values"] = list(configuracoes.keys())
-label_em_branco.pack()
+
 
 # Campo de entrada para nome da configuração
-fLinha2 = tk.Frame(root)
-fLinha2.pack(padx=5, pady=5, anchor='w')
+frameLinha2 = tk.Frame(root)
+frameLinha2.pack(padx=5, pady=5, anchor='w')
 
-label_nome_config = tk.Label(fLinha2, text="Nome da Configuração:", width=30)
+label_nome_config = tk.Label(frameLinha2, text="Nome da Configuração:", width=30)
 label_nome_config.pack(side="left")
-entry_nome_config = tk.Entry(fLinha2, width=50)
+entry_nome_config = tk.Entry(frameLinha2, width=50)
 entry_nome_config.pack(side="left")
 
 # Campo de entrada para a pasta
-fLinha3 = tk.Frame(root)
-fLinha3.pack(padx=5, pady=5, anchor='w')
+frameLinha3 = tk.Frame(root)
+frameLinha3.pack(padx=5, pady=5, anchor='w')
 
-label_pasta = tk.Label(fLinha3, text="Diretorio git Local:", width=30)
+label_pasta = tk.Label(frameLinha3, text="Diretorio git Local:", width=30)
 label_pasta.pack(side="left",)
-entry_diretorio_local = tk.Entry(fLinha3, width=50)  
+entry_diretorio_local = tk.Entry(frameLinha3, width=50)  
 entry_diretorio_local.pack(side="left")
 
 # Botão para listar pastas
-botao_listar = tk.Button(fLinha3, text="Listar Pastas", command=listar_pastas)
+botao_listar = tk.Button(frameLinha3, text="Listar Pastas", command=listar_pastas)
 botao_listar.pack(side="left")
 
 # Combobox para exibir as pastas
 
-fLinha4 = tk.Frame(root)
-fLinha4.pack(padx=5, pady=5, anchor='w')
+frameLinha4 = tk.Frame(root)
+frameLinha4.pack(padx=5, pady=5, anchor='w')
 
-label_campo1 = tk.Label(fLinha4, text="Projetos:", width=30)
+label_campo1 = tk.Label(frameLinha4, text="Projetos:", width=30)
 label_campo1.pack(side="left")
 
-combo_pastas = ttk.Combobox(fLinha4)
-combo_pastas = ttk.Combobox(fLinha4, width=50)
+combo_pastas = ttk.Combobox(frameLinha4)
+combo_pastas = ttk.Combobox(frameLinha4, width=50)
 combo_pastas.pack(side="left")
 
 
 # Campos de entrada para as configurações
-fLinha5 = tk.Frame(root)
-fLinha5.pack(padx=5, pady=5, anchor='w')
+frameLinha5 = tk.Frame(root)
+frameLinha5.pack(padx=5, pady=5, anchor='w')
 
-label_campo1 = tk.Label(fLinha5, text="Branch Pessoal:", width=30)
+label_campo1 = tk.Label(frameLinha5, text="Branch Pessoal:", width=30)
 label_campo1.pack(side="left")
-branchPessoal = tk.Entry(fLinha5, width=50)
-branchPessoal.pack(side="left")
+entry_branchPessoal = tk.Entry(frameLinha5, width=50)
+entry_branchPessoal.pack(side="left")
 
-fLinha6 = tk.Frame(root)
-fLinha6.pack(padx=5, pady=5, anchor='w')
+frameLinha6 = tk.Frame(root)
+frameLinha6.pack(padx=5, pady=5, anchor='w')
 
-label_campo2 = tk.Label(fLinha6, text="Branch Comum:", width=30)
+label_campo2 = tk.Label(frameLinha6, text="Branch Comum:", width=30)
 label_campo2.pack(side="left")
-branchComum = tk.Entry(fLinha6, width=50)
-branchComum.pack(side="left")
+entry_branchComum = tk.Entry(frameLinha6, width=50)
+entry_branchComum.pack(side="left")
 
-fLinha7 = tk.Frame(root)
-fLinha7.pack(padx=5, pady=5, anchor='w')
+frameLinha7 = tk.Frame(root)
+frameLinha7.pack(padx=5, pady=5, anchor='w')
 
-label_campo3 = tk.Label(fLinha7, text="Branch comum des(liberacao_des):", width=30)
+label_campo3 = tk.Label(frameLinha7, text="Branch comum des(liberacao_des):", width=30)
 label_campo3.pack(side="left")
-branchLibDes = tk.Entry(fLinha7, width=50)
-branchLibDes.pack(side="left")
+entry_branchLibDes = tk.Entry(frameLinha7, width=50)
+entry_branchLibDes.pack(side="left")
 
-fLinha8 = tk.Frame(root)
-fLinha8.pack(padx=5, pady=5, anchor='w')
+frameLinha8 = tk.Frame(root)
+frameLinha8.pack(padx=5, pady=5, anchor='w')
 
-label_campo4 = tk.Label(fLinha8, text="Branch comum ITG(liberacao_itg):", width=30)
+label_campo4 = tk.Label(frameLinha8, text="Branch comum ITG(liberacao_itg):", width=30)
 label_campo4.pack(side="left")
-branchLibItg = tk.Entry(fLinha8, width=50)
-branchLibItg.pack(side="left")
+entry_branchLibItg = tk.Entry(frameLinha8, width=50)
+entry_branchLibItg.pack(side="left")
 
 # Botão para salvar configuração
 
-fLinha9 = tk.Frame(root)
-fLinha9.pack(padx=5, pady=5, anchor='center')
+frameLinha9 = tk.Frame(root)
+frameLinha9.pack(padx=5, pady=5, anchor='center')
 
 # Botão para salvar configuração
-botao_novo = tk.Button(fLinha9, text="Novo", command=nova_configuracao)
+botao_novo = tk.Button(frameLinha9, text="Novo", command=nova_configuracao)
 botao_novo.pack(side="left")
 
-botao_salvar = tk.Button(fLinha9, text="Salvar", command=salvar_configuracao)
+botao_salvar = tk.Button(frameLinha9, text="Salvar", command=salvar_configuracao)
 botao_salvar.pack(side="left")
 
 # Botão para carregar configuração selecionada
-botao_carregar = tk.Button(fLinha9, text="Carregar", command=carregar_configuracao)
+botao_carregar = tk.Button(frameLinha9, text="Carregar", command=carregar_configuracao)
 botao_carregar.pack(side="left")
 
 def merge():
     repo_path = entry_diretorio_local.get() + '/' + combo_pastas.get()
-    branch_pessoal = branchPessoal.get()
-    branch_comum = branchComum.get()
-    branch_des = branchLibDes.get()
-    branch_itg = branchLibItg.get()
+    branch_pessoal = entry_branchPessoal.get()
+    branch_comum = entry_branchComum.get()
+    entry_branch_des = branchLibDes.get()
+    branch_itg = entry_branchLibItg.get()
 
     try:
         repo = git.Repo(repo_path)
@@ -262,11 +262,11 @@ def merge():
         print(f"Erro inesperado: {e}")
 
 # Botão para fazer o merge
-botao_merge = tk.Button(fLinha9, text="Merge", command=merge)
+botao_merge = tk.Button(frameLinha9, text="Merge", command=merge)
 botao_merge.pack(side="left")
 
 # Boatão sair
-botao_merge = tk.Button(fLinha9, text="Sair", command=root.destroy)
+botao_merge = tk.Button(frameLinha9, text="Sair", command=root.destroy)
 botao_merge.pack(side="left")
 
 # Iniciar o loop principal da interface gráfica
