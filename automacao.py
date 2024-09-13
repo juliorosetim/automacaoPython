@@ -4,11 +4,22 @@ import json
 import git
 from git.exc import GitCommandError
 import os
+from tkinter import filedialog
+
+# def listar_pastas():
+#     pasta = entry_diretorio_local.get()
+#     if os.path.exists(pasta) and os.path.isdir(pasta):
+#         pastas = [item for item in os.listdir(pasta) if os.path.isdir(os.path.join(pasta, item))]
+#         combo_pastas["values"] = pastas
+#     else:
+#         combo_pastas["values"] = []
 
 def listar_pastas():
-    pasta = entry_diretorio_local.get()
-    if os.path.exists(pasta) and os.path.isdir(pasta):
-        pastas = [item for item in os.listdir(pasta) if os.path.isdir(os.path.join(pasta, item))]
+    pasta_selecionada = filedialog.askdirectory(initialdir="/home")
+    entry_diretorio_local.delete(0, tk.END)  # Limpa o campo de entrada
+    entry_diretorio_local.insert(0, pasta_selecionada) 
+    if os.path.exists(pasta_selecionada) and os.path.isdir(pasta_selecionada):
+        pastas = [item for item in os.listdir(pasta_selecionada) if os.path.isdir(os.path.join(pasta_selecionada, item))]
         combo_pastas["values"] = pastas
     else:
         combo_pastas["values"] = []
@@ -51,6 +62,16 @@ def carregar_configuracao(event=None):
         branchLibDes.insert(0, configuracao["branchLibDes"])
         branchLibItg.delete(0, tk.END)
         branchLibItg.insert(0, configuracao["branchLibItg"])        
+
+def nova_configuracao(event=None):
+    entry_nome_config.delete(0, tk.END)
+    combobox_config.delete(0, tk.END)
+    entry_diretorio_local.delete(0, tk.END)
+    combo_pastas.delete(0, tk.END)
+    branchPessoal.delete(0, tk.END)
+    branchComum.delete(0, tk.END)
+    branchLibDes.delete(0, tk.END)
+    branchLibItg.delete(0, tk.END)
 
 # Criar a janela principal
 root = tk.Tk()
@@ -150,6 +171,10 @@ branchLibItg.pack(side="left")
 
 fLinha9 = tk.Frame(root)
 fLinha9.pack(padx=5, pady=5, anchor='center')
+
+# Botão para salvar configuração
+botao_novo = tk.Button(fLinha9, text="Novo", command=nova_configuracao)
+botao_novo.pack(side="left")
 
 botao_salvar = tk.Button(fLinha9, text="Salvar", command=salvar_configuracao)
 botao_salvar.pack(side="left")
