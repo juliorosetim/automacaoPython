@@ -187,8 +187,8 @@ def merge():
     repo_path = entry_diretorio_local.get() + '/' + combo_pastas.get()
     branch_pessoal = entry_branchPessoal.get()
     branch_comum = entry_branchComum.get()
-    entry_branch_des = branchLibDes.get()
-    branch_itg = entry_branchLibItg.get()
+    branchLibDes = entry_branchLibDes.get()
+    branchLibItg = entry_branchLibItg.get()
 
     try:
         repo = git.Repo(repo_path)
@@ -214,36 +214,36 @@ def merge():
         repo.remotes.origin.push(branch_comum)
 
         # Merge e push para a branch "branchDes"
-        if not branch_des == "":
+        if not branchLibDes == "":
             print("  ")
             print("  ")
-            print("Checkout para a branch -> " + branch_des)
-            repo.git.checkout(branch_des)
+            print("Checkout para a branch -> " + branchLibDes)
+            repo.git.checkout(branchLibDes)
             print("  ")
             print("  ")
-            print("Merge da branch -> " + branch_comum + " para a branch -> " + branch_des)
+            print("Merge da branch -> " + branch_comum + " para a branch -> " + branchLibDes)
             repo.git.merge(branch_comum)
             print("  ")
             print("  ")
-            print("Push para a branch -> " + branch_des)
-            repo.remotes.origin.push(branch_des)
+            print("Push para a branch -> " + branchLibDes)
+            repo.remotes.origin.push(branchLibDes)
         else:
             print("Branch comun DES não configurada")
 
         # Merge e push para a branch "branchItg"
-        if not branch_itg == "":
+        if not branchLibItg == "":
             print("  ")
             print("  ")
-            print("Checkout para a branch -> " + branch_itg)
-            repo.git.checkout(branch_itg)
+            print("Checkout para a branch -> " + branchLibItg)
+            repo.git.checkout(branchLibItg)
             print("  ")
             print("  ")
-            print("Merge da branch -> " + branch_comum + " para a branch -> " + branch_itg)
+            print("Merge da branch -> " + branch_comum + " para a branch -> " + branchLibItg)
             repo.git.merge(branch_comum)
             print("  ")
             print("  ")
-            print("Push para a branch -> " + branch_itg)
-            repo.remotes.origin.push(branch_itg)
+            print("Push para a branch -> " + branchLibItg)
+            repo.remotes.origin.push(branchLibItg)
         else:
             print("Branch comun ITG não configurada")
 
