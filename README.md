@@ -37,6 +37,9 @@ Instalar gerenciador de pacotes PIP python3
 Windows 
     pip install tkinter    
 
+Linux
+    sudo apt-get install python3-tk    
+
 pip install gitpython
 ```
     
